@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parvex — Predictive Intelligence for Vertical Transport</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0b0d;
+    --off-black: #111318;
+    --card-bg: #161a22;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(255,255,255,0.14);
+    --text-primary: #f0ede8;
+    --text-secondary: #8a8d94;
+    --text-muted: #50545c;
+    --accent: #e8f5a3;
+    --accent-dim: rgba(232,245,163,0.12);
+    --accent-dim2: rgba(232,245,163,0.06);
+    --teal: #4dd4b0;
+    --teal-dim: rgba(77,212,176,0.1);
+    --orange: #f0874a;
+    --orange-dim: rgba(240,135,74,0.1);
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --mono: 'DM Mono', monospace;
+    --max: 1160px;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--black);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 2px; }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 64px;
+    background: rgba(10,11,13,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-links a:hover { color: var(--text-primary); }
+
+  .nav-cta {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--black) !important;
+    background: var(--accent);
+    padding: 0.4rem 1.1rem;
+    border-radius: 100px;
+    transition: opacity 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.88; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 7rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(232,245,163,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,245,163,0.025) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 100%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(232,245,163,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim2);
+    border: 1px solid rgba(232,245,163,0.15);
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    max-width: 900px;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    font-weight: 300;
+    position: relative;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    position: relative;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn-primary {
+    font-family: var(--sans);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--black);
+    background: var(--accent);
+    padding: 0.75rem 2rem;
+    border-radius: 100px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .btn-ghost {
+    font-family: var(--sans);
+    font-size: 0.9375rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    background: transparent;
+    padding: 0.75rem 2rem;
+    border-radius: 100px;
+    text-decoration: none;
+    border: 1px solid var(--border-hover);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--text-primary); border-color: rgba(255,255,255,0.25); }
+
+  /* STAT BAR */
+  .stat-bar {
+    background: var(--card-bg);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+  }
+
+  .stat-bar-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 2.25rem;
+    color: var(--text-primary);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-num span { color: var(--accent); }
+
+  .stat-label {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 7rem 2rem;
+  }
+
+  .container {
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+
+  .section-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+  }
+
+  .section-body {
+    font-size: 1.0625rem;
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  /* PROBLEM */
+  .problem-section {
+    background: var(--off-black);
+  }
+
+  .problem-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .problem-visual {
+    position: relative;
+  }
+
+  .elevator-diagram {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .elevator-diagram::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--orange), transparent);
+  }
+
+  .diag-label {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .signal-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+
+  .signal-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .signal-icon.orange { background: var(--orange-dim); color: var(--orange); }
+  .signal-icon.teal { background: var(--teal-dim); color: var(--teal); }
+  .signal-icon.accent { background: var(--accent-dim); color: var(--accent); }
+
+  .signal-info { flex: 1; }
+  .signal-name { font-size: 0.8125rem; font-weight: 500; color: var(--text-primary); }
+  .signal-val { font-size: 0.75rem; color: var(--text-muted); font-family: var(--mono); margin-top: 2px; }
+
+  .signal-status {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    padding: 0.2rem 0.55rem;
+    border-radius: 100px;
+  }
+
+  .status-warn { background: rgba(240,135,74,0.15); color: var(--orange); }
+  .status-ok { background: rgba(77,212,176,0.1); color: var(--teal); }
+  .status-alert { background: rgba(232,245,163,0.12); color: var(--accent); }
+
+  .wave-line {
+    height: 40px;
+    margin: 1rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wave-line svg { width: 100%; height: 100%; }
+
+  /* PLATFORM */
+  .platform-section { background: var(--black); }
+
+  .platform-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-top: 4rem;
+  }
+
+  .platform-card {
+    background: var(--off-black);
+    padding: 2.25rem 2.5rem;
+    position: relative;
+    transition: background 0.25s;
+  }
+
+  .platform-card:hover { background: var(--card-bg); }
+
+  .platform-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 2.5rem; right: 2.5rem;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .platform-card:nth-last-child(-n+2)::after { display: none; }
+
+  .pc-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    font-size: 1.25rem;
+  }
+
+  .pc-icon.a1 { background: var(--orange-dim); }
+  .pc-icon.a2 { background: var(--teal-dim); }
+  .pc-icon.a3 { background: var(--accent-dim); }
+  .pc-icon.a4 { background: rgba(180,160,240,0.1); }
+
+  .pc-title {
+    font-family: var(--serif);
+    font-size: 1.3125rem;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .pc-desc {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  .pc-tag {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+
+  /* HOW IT WORKS */
+  .how-section { background: var(--off-black); }
+
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+
+  .how-step {
+    position: relative;
+  }
+
+  .how-step-num {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .how-step-bar {
+    height: 2px;
+    background: var(--border);
+    border-radius: 1px;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .how-step-bar::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    border-radius: 1px;
+  }
+
+  .how-step:nth-child(1) .how-step-bar::after { width: 100%; background: var(--orange); }
+  .how-step:nth-child(2) .how-step-bar::after { width: 100%; background: var(--teal); }
+  .how-step:nth-child(3) .how-step-bar::after { width: 100%; background: var(--accent); }
+
+  .how-step-title {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.015em;
+  }
+
+  .how-step-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* COMPLIANCE */
+  .compliance-section { background: var(--black); }
+
+  .compliance-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .cert-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cert-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--teal), transparent);
+  }
+
+  .cert-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cert-title { font-size: 0.9375rem; font-weight: 500; color: var(--text-primary); }
+  .cert-badge {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    padding: 0.25rem 0.6rem;
+    border-radius: 100px;
+    background: rgba(77,212,176,0.1);
+    color: var(--teal);
+    border: 1px solid rgba(77,212,176,0.2);
+  }
+
+  .cert-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.875rem;
+  }
+
+  .cert-row:last-child { border-bottom: none; }
+  .cert-row-label { color: var(--text-muted); font-size: 0.8125rem; }
+  .cert-row-val { color: var(--text-primary); font-family: var(--mono); font-size: 0.8125rem; }
+  .cert-row-val.green { color: var(--teal); }
+  .cert-row-val.accent { color: var(--accent); }
+
+  /* FOUNDER */
+  .founder-section {
+    background: var(--off-black);
+    border-top: 1px solid var(--border);
+  }
+
+  .founder-layout {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .founder-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: sticky;
+    top: 84px;
+  }
+
+  .founder-avatar {
+    width: 100%;
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #1a1e2a 0%, #0f1118 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .founder-initials {
+    font-family: var(--serif);
+    font-size: 5rem;
+    color: rgba(232,245,163,0.3);
+    letter-spacing: -0.02em;
+    z-index: 1;
+    position: relative;
+  }
+
+  .founder-avatar-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 30% 40%, rgba(232,245,163,0.05) 0%, transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(77,212,176,0.04) 0%, transparent 50%);
+  }
+
+  .founder-avatar-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(232,245,163,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,245,163,0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .founder-info {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .founder-name {
+    font-family: var(--serif);
+    font-size: 1.375rem;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.2rem;
+  }
+
+  .founder-role {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    font-weight: 400;
+  }
+
+  .founder-tag {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim2);
+    border: 1px solid rgba(232,245,163,0.12);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+  }
+
+  .founder-content {}
+
+  .founder-quote {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    line-height: 1.4;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+
+  .founder-quote::before {
+    content: '"';
+    color: var(--accent);
+    display: block;
+    font-size: 3rem;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .founder-bio-block {
+    margin-bottom: 1.5rem;
+  }
+
+  .founder-bio-block p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .founder-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 2rem;
+  }
+
+  .founder-pill {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+    background: var(--card-bg);
+  }
+
+  /* TRACTION */
+  .traction-section { background: var(--black); }
+
+  .traction-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+
+  .traction-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .traction-card:hover { border-color: var(--border-hover); }
+
+  .traction-card-num {
+    font-family: var(--serif);
+    font-size: 2.5rem;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .traction-card-num.accent { color: var(--accent); }
+  .traction-card-num.teal { color: var(--teal); }
+  .traction-card-num.orange { color: var(--orange); }
+
+  .traction-card-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* CTA */
+  .cta-section {
+    background: var(--off-black);
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 8rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(232,245,163,0.05) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .cta-section .section-title {
+    max-width: 640px;
+    margin: 0 auto 1.25rem;
+  }
+
+  .cta-section .section-body {
+    max-width: 440px;
+    margin: 0 auto 3rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+  }
+
+  .footer-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-meta {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text-secondary); }
+
+  /* DIVIDERS */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 0 1.25rem; }
+    .nav-links { display: none; }
+    .problem-layout,
+    .compliance-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .platform-grid,
+    .how-grid { grid-template-columns: 1fr; }
+    .traction-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-bar-inner { grid-template-columns: repeat(2, 1fr); }
+    .founder-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+    .founder-card { position: static; }
+  }
+
+  /* ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Parv<span>ex</span></a>
+  <ul class="nav-links">
+    <li><a href="#platform">Platform</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#compliance">Compliance</a></li>
+    <li><a href="#founder">Founder</a></li>
+    <li><a href="#contact" class="nav-cta">Request demo</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-tag">Predictive maintenance intelligence</div>
+
+  <h1>
+    Every elevator tells<br><em>you when it will fail.</em><br>You just need to listen.
+  </h1>
+
+  <p class="hero-sub">
+    Parvex turns motor current signatures and vibration telemetry into prescriptive maintenance intelligence — catching failures weeks before they happen, automating compliance, and routing your technicians like a chess master.
+  </p>
+
+  <div class="hero-ctas">
+    <a href="#contact" class="btn-primary">Request a demo →</a>
+    <a href="#platform" class="btn-ghost">See the platform</a>
+  </div>
+</section>
+
+<!-- STAT BAR -->
+<div class="stat-bar">
+  <div class="stat-bar-inner">
+    <div class="stat-item reveal">
+      <div class="stat-num">1<span>M+</span></div>
+      <div class="stat-label">elevators in the US requiring<br>mandatory annual inspection</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-num"><span>$</span>32<span>B</span></div>
+      <div class="stat-label">US elevator maintenance<br>market by 2030</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-num">75<span>%</span></div>
+      <div class="stat-label">of elevators serviced by<br>independent mechanics</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-num"><span>~</span>0<span>%</span></div>
+      <div class="stat-label">of the installed base has<br>true predictive intelligence</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem-section">
+  <div class="container">
+    <div class="problem-layout">
+      <div>
+        <p class="section-eyebrow reveal">The problem</p>
+        <h2 class="section-title reveal">The industry is flying blind</h2>
+        <p class="section-body reveal">
+          Over a million elevators in the US require mandatory annual safety inspections — yet maintenance decisions are still made on fixed schedules and gut feel. Unplanned outages cost building owners $500–$1,200 per incident. Technicians spend 40% of their time on unnecessary visits. Compliance certificates are managed in spreadsheets.
+        </p>
+        <br>
+        <p class="section-body reveal">
+          Parvex installs a compact IoT sensor node on the motor control cabinet — no wiring, no downtime — and begins streaming current signatures and three-axis vibration data to our cloud models within the hour.
+        </p>
+      </div>
+
+      <div class="problem-visual reveal">
+        <div class="elevator-diagram">
+          <div class="diag-label">Live sensor stream — Unit #EL-2047</div>
+
+          <div class="wave-line">
+            <svg viewBox="0 0 400 40" preserveAspectRatio="none">
+              <polyline
+                points="0,20 20,18 40,22 60,14 80,28 100,10 120,30 140,20 160,16 180,24 200,12 220,28 240,18 260,22 280,16 300,26 320,14 340,22 360,18 380,20 400,20"
+                fill="none" stroke="#f0874a" stroke-width="1.5" opacity="0.7"/>
+              <polyline
+                points="0,20 20,19 40,21 60,23 80,18 100,22 120,20 140,19 160,21 180,20 200,22 220,19 240,20 260,22 280,18 300,21 320,20 340,19 360,21 380,20 400,20"
+                fill="none" stroke="#4dd4b0" stroke-width="1" opacity="0.4"/>
+            </svg>
+          </div>
+
+          <div class="signal-row">
+            <div class="signal-icon orange">⚡</div>
+            <div class="signal-info">
+              <div class="signal-name">Motor current draw</div>
+              <div class="signal-val">14.7A · 3-phase · 60Hz</div>
+            </div>
+            <span class="signal-status status-warn">Anomaly detected</span>
+          </div>
+
+          <div class="signal-row">
+            <div class="signal-icon teal">📡</div>
+            <div class="signal-info">
+              <div class="signal-name">Vibration (Z-axis)</div>
+              <div class="signal-val">0.82 mm/s RMS · 47Hz peak</div>
+            </div>
+            <span class="signal-status status-ok">Normal</span>
+          </div>
+
+          <div class="signal-row">
+            <div class="signal-icon accent">🌡</div>
+            <div class="signal-info">
+              <div class="signal-name">Bearing temperature</div>
+              <div class="signal-val">72.4°C · +11°C from baseline</div>
+            </div>
+            <span class="signal-status status-alert">Watch</span>
+          </div>
+
+          <div style="margin-top: 1.25rem; padding: 1rem; background: rgba(232,245,163,0.04); border: 1px solid rgba(232,245,163,0.1); border-radius: 8px;">
+            <div style="font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 0.4rem; font-weight: 500;">Parvex forecast</div>
+            <div style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.55; font-weight: 300;">Motor winding insulation degradation detected. Estimated <strong style="color: var(--text-primary); font-weight: 500;">18–24 days</strong> to critical failure threshold. Schedule inspection in next maintenance window.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORM -->
+<section class="platform-section" id="platform">
+  <div class="container">
+    <p class="section-eyebrow reveal">The platform</p>
+    <h2 class="section-title reveal">Four modules. One intelligence layer.</h2>
+    <p class="section-body reveal">Built for elevator service companies, facility management firms, and independent maintenance operators who want to move from reactive firefighting to proactive precision.</p>
+
+    <div class="platform-grid">
+      <div class="platform-card reveal">
+        <div class="pc-tag">Module 01</div>
+        <div class="pc-icon a1">⚡</div>
+        <div class="pc-title">Failure prediction</div>
+        <p class="pc-desc">Our models analyse motor current signatures using Fast Fourier Transform decomposition and vibration spectral fingerprinting to detect bearing wear, winding faults, and brake degradation weeks before physical failure. Trained on motor telemetry patterns across hundreds of drive types.</p>
+      </div>
+
+      <div class="platform-card reveal reveal-delay-1">
+        <div class="pc-tag">Module 02</div>
+        <div class="pc-icon a2">📋</div>
+        <div class="pc-title">Compliance automation</div>
+        <p class="pc-desc">State-by-state compliance logic built in. Parvex tracks inspection due dates, auto-generates certificate packages pre-populated with sensor data, and files directly with jurisdictional authorities where APIs are available — turning a 3-hour admin task into a one-click confirmation.</p>
+      </div>
+
+      <div class="platform-card reveal">
+        <div class="pc-tag">Module 03</div>
+        <div class="pc-icon a3">🗺</div>
+        <div class="pc-title">Technician routing</div>
+        <p class="pc-desc">Constraint-based route optimisation across your technician fleet, factoring failure urgency scores, technician skill profiles, real-time traffic, and parts availability. Average travel time reduction of 30–40% in pilot deployments, with dynamic re-routing on new alerts.</p>
+      </div>
+
+      <div class="platform-card reveal reveal-delay-1">
+        <div class="pc-tag">Module 04</div>
+        <div class="pc-icon a4">📦</div>
+        <div class="pc-title">Parts inventory prediction</div>
+        <p class="pc-desc">Predictive demand signals for your parts storeroom. Parvex correlates failure forecasts across your entire monitored fleet to predict which SKUs — motors, contactor kits, brake shoes, door operators — need replenishment 4–6 weeks out, cutting emergency procurement costs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="container">
+    <p class="section-eyebrow reveal">How it works</p>
+    <h2 class="section-title reveal">From raw signal to prescriptive action</h2>
+
+    <div class="how-grid">
+      <div class="how-step reveal">
+        <div class="how-step-num">01 — Ingest</div>
+        <div class="how-step-bar"></div>
+        <div class="how-step-title">Non-invasive sensor installation</div>
+        <p class="how-step-desc">A Parvex IoT node clamps onto the motor control cabinet power rail — no rewiring, no downtime, no certified electrician required. The device streams current waveforms at 1kHz and three-axis vibration at 800Hz over LTE or building WiFi. Full deployment per unit: under 45 minutes.</p>
+      </div>
+
+      <div class="how-step reveal reveal-delay-1">
+        <div class="how-step-num">02 — Analyse</div>
+        <div class="how-step-bar"></div>
+        <div class="how-step-title">Edge + cloud ML pipeline</div>
+        <p class="how-step-desc">On-device edge processing computes frequency domain features locally, minimising data transmission cost. Cloud models run ensemble anomaly detection and component-specific degradation models — individualised per elevator's drive type, age, load profile, and usage pattern. Models update continuously.</p>
+      </div>
+
+      <div class="how-step reveal reveal-delay-2">
+        <div class="how-step-num">03 — Act</div>
+        <div class="how-step-bar"></div>
+        <div class="how-step-title">Prescriptive intelligence delivered</div>
+        <p class="how-step-desc">Alerts surface in the Parvex dashboard ranked by failure probability and business impact. Each alert includes a plain-language diagnosis, recommended action, estimated parts required, and a one-click dispatch to your nearest available technician — with route already optimised.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPLIANCE -->
+<section class="compliance-section" id="compliance">
+  <div class="container">
+    <div class="compliance-layout">
+      <div>
+        <p class="section-eyebrow reveal">Compliance</p>
+        <h2 class="section-title reveal">Annual inspections, automated end-to-end</h2>
+        <p class="section-body reveal">
+          Every US state has its own elevator inspection requirements — frequency, documentation format, certifying authority. Managing a portfolio of 50+ units across multiple jurisdictions means a full-time compliance coordinator.
+        </p>
+        <br>
+        <p class="section-body reveal">
+          Parvex maps all 50 state code requirements and maintains a live compliance calendar for your portfolio. When an inspection is due, we auto-generate the certificate package — pre-filled with sensor-verified operational data — and route it to the right authority.
+        </p>
+        <br>
+        <div class="reveal">
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; color: var(--text-secondary);">
+              <span style="color: var(--teal); font-size: 1.1rem;">✓</span> All 50 state code requirements mapped
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; color: var(--text-secondary);">
+              <span style="color: var(--teal); font-size: 1.1rem;">✓</span> Automated deadline tracking & alerts
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; color: var(--text-secondary);">
+              <span style="color: var(--teal); font-size: 1.1rem;">✓</span> Pre-filled certificate generation
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; color: var(--text-secondary);">
+              <span style="color: var(--teal); font-size: 1.1rem;">✓</span> Direct authority filing where supported
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="cert-card">
+          <div class="cert-header">
+            <div class="cert-title">Certificate of Compliance</div>
+            <span class="cert-badge">Auto-generated</span>
+          </div>
+          <div class="cert-row">
+            <span class="cert-row-label">Unit ID</span>
+            <span class="cert-row-val">EL-2047 · Floor B1–22</span>
+          </div>
+          <div class="cert-row">
+            <span class="cert-row-label">Jurisdiction</span>
+            <span class="cert-row-val">New York City DOB</span>
+          </div>
+          <div class="cert-row">
+            <span class="cert-row-label">Last inspection</span>
+            <span class="cert-row-val">March 14, 2025</span>
+          </div>
+          <div class="cert-row">
+            <span class="cert-row-label">Next due</span>
+            <span class="cert-row-val accent">March 14, 2026 ← 38 days</span>
+          </div>
+          <div class="cert-row">
+            <span class="cert-row-label">Safety status</span>
+            <span class="cert-row-val green">Compliant</span>
+          </div>
+          <div class="cert-row">
+            <span class="cert-row-label">Motor health score</span>
+            <span class="cert-row-val green">87 / 100</span>
+          </div>
+          <div class="cert-row">
+            <span class="cert-row-label">Certificate package</span>
+            <span class="cert-row-val green">Ready to file ↗</span>
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem; padding: 1rem 1.25rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-sm);">
+          <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 500;">Portfolio overview</div>
+          <div style="display: flex; gap: 1.5rem;">
+            <div>
+              <div style="font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--teal);">94<span style="font-size: 1rem;">%</span></div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Compliant units</div>
+            </div>
+            <div>
+              <div style="font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--accent);">4</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Due in 30 days</div>
+            </div>
+            <div>
+              <div style="font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--orange);">1</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Action required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section class="founder-section" id="founder">
+  <div class="container">
+    <p class="section-eyebrow reveal">Founder</p>
+    <h2 class="section-title reveal">Built by someone who knows the machine room</h2>
+
+    <div class="founder-layout" style="margin-top: 3.5rem;">
+      <div class="reveal">
+        <div class="founder-card">
+          <div class="founder-avatar">
+            <div class="founder-avatar-bg"></div>
+            <div class="founder-avatar-grid"></div>
+            <div class="founder-initials">NG</div>
+          </div>
+          <div class="founder-info">
+            <div class="founder-name">Nihar Gandhi</div>
+            <div class="founder-role">Founder & CEO, Parvex</div>
+            <span class="founder-tag">Founder</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="founder-content reveal reveal-delay-1">
+        <blockquote class="founder-quote">
+          The most expensive failure is always the one nobody saw coming. Every elevator announces its failure in advance — the industry just hasn't been listening.
+        </blockquote>
+
+        <div class="founder-bio-block">
+          <p>Nihar Gandhi founded Parvex to solve a problem he observed firsthand: the massive gap between how elevators are maintained today and how they could be maintained with modern sensor hardware and machine learning. The vertical transport industry has been locked in a time-warp of manual inspections, paper-based compliance, and reactive service dispatches — not from lack of will, but from lack of an accessible intelligence layer.</p>
+        </div>
+
+        <div class="founder-bio-block" style="margin-top: 1.25rem;">
+          <p>Parvex's architecture reflects Nihar's conviction that the right answer is non-invasive and additive — a sensor node that snaps onto existing equipment, a software platform that integrates with existing workflows, and a compliance engine that does the paperwork no one wants to do. No expensive elevator replacements required. No downtime for installation. No rip-and-replace.</p>
+        </div>
+
+        <div class="founder-bio-block" style="margin-top: 1.25rem;">
+          <p>The founding insight: motor current signatures carry an enormous amount of information about mechanical health — bearing condition, winding insulation quality, brake engagement friction — that trained signal processing models can extract with high reliability. Parvex's models were developed and validated against real-world failure datasets from commercial building portfolios, not just laboratory test benches.</p>
+        </div>
+
+        <div class="founder-pills">
+          <span class="founder-pill">Signal processing</span>
+          <span class="founder-pill">IoT systems</span>
+          <span class="founder-pill">Predictive ML</span>
+          <span class="founder-pill">B2B SaaS</span>
+          <span class="founder-pill">Building infrastructure</span>
+          <span class="founder-pill">Compliance automation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACTION -->
+<section class="traction-section" id="traction">
+  <div class="container">
+    <p class="section-eyebrow reveal">Why now</p>
+    <h2 class="section-title reveal">A market with no shortage of tailwinds</h2>
+    <p class="section-body reveal">Regulatory pressure is intensifying. Building owners are getting squeezed by liability exposure. And for the first time, the sensor and edge-compute cost curve makes per-unit monitoring economically viable at scale.</p>
+
+    <div class="traction-grid">
+      <div class="traction-card reveal">
+        <div class="traction-card-num accent">6.4%</div>
+        <div class="traction-card-label">Global elevator market CAGR through 2032 — service and maintenance outpacing new installations</div>
+      </div>
+      <div class="traction-card reveal reveal-delay-1">
+        <div class="traction-card-num teal">25%+</div>
+        <div class="traction-card-label">Gross margin on maintenance contracts vs hardware — making SaaS the structural winner</div>
+      </div>
+      <div class="traction-card reveal reveal-delay-2">
+        <div class="traction-card-num orange">75%</div>
+        <div class="traction-card-label">Of global installed base serviced by independent mechanics — outside OEM digital platforms entirely</div>
+      </div>
+      <div class="traction-card reveal">
+        <div class="traction-card-num accent">50%</div>
+        <div class="traction-card-label">Downtime reduction achievable with predictive maintenance, per IoT industry benchmarks</div>
+      </div>
+      <div class="traction-card reveal reveal-delay-1">
+        <div class="traction-card-num teal">$1.1M</div>
+        <div class="traction-card-label">Typical airport escalator contract value — illustrating high willingness to pay for reliability</div>
+      </div>
+      <div class="traction-card reveal reveal-delay-2">
+        <div class="traction-card-num orange">18%</div>
+        <div class="traction-card-label">YoY jump in Otis modernisation backlog in 2024 — owners choosing to upgrade aging portfolios</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-glow"></div>
+  <div class="container" style="position: relative;">
+    <p class="section-eyebrow reveal">Get started</p>
+    <h2 class="section-title reveal">See Parvex in action on your fleet</h2>
+    <p class="section-body reveal">
+      We're working with a select group of elevator service companies and facility managers for our initial deployments. If you manage 20+ units, we'd like to talk.
+    </p>
+
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;" class="reveal">
+      <a href="mailto:demo@parvex.ai" class="btn-primary">Request a demo →</a>
+      <a href="mailto:nihar@parvex.ai" class="btn-ghost">Email the founder</a>
+    </div>
+
+    <div style="margin-top: 3.5rem; display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;" class="reveal">
+      <div style="text-align: center;">
+        <div style="font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.25rem;">Deployment</div>
+        <div style="font-size: 0.9rem; color: var(--text-secondary);">Sub-1hr per unit</div>
+      </div>
+      <div style="text-align: center;">
+        <div style="font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.25rem;">Contract</div>
+        <div style="font-size: 0.9rem; color: var(--text-secondary);">Monthly SaaS, no hardware lock-in</div>
+      </div>
+      <div style="text-align: center;">
+        <div style="font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.25rem;">Data ownership</div>
+        <div style="font-size: 0.9rem; color: var(--text-secondary);">Yours, always</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="footer-logo">Parv<span>ex</span></a>
+    <ul class="footer-links">
+      <li><a href="#platform">Platform</a></li>
+      <li><a href="#founder">Team</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="footer-meta">© 2025 Parvex. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
